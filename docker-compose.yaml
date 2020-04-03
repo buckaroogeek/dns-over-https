@@ -7,7 +7,7 @@ version: '2.2'
 services:
   doh-client:     #DOH Client for local network
     container_name: SageCreek-DOH-Client
-    image: reg.lan:443/dohclient:latest
+    image: buckaroogeek/doh-client:latest
     hostname: dohclient
     domainname: lan
     mac_address: d0:ca:ab:cd:ef:03
