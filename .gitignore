@@ -16,3 +16,6 @@ Session.vim
 .glide/
 
 .idea/
+
+# tmp folder
+# tmp/*
