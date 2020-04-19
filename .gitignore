@@ -3,8 +3,14 @@
 *.dll
 *.so
 *.dylib
+
+
+# vim users
 Session.vim
 
+darwin-wrapper/doh-logger
+doh-client/doh-client
+doh-server/doh-server
 
 # Test binary, build with `go test -c`
 *.test
@@ -18,4 +24,4 @@ Session.vim
 .idea/
 
 # tmp folder
-# tmp/*
+tmp/*
