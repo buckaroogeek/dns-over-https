@@ -1,4 +1,6 @@
-sudo podman build -t buckaroogeek/doh-client:2.2.2 -f Dockerfile.client
-sudo podman tag 926230323771 2.2.2
-sudo podman tag 926230323771 latest
-sudo podman push buckaroogeek/doh-client:latest
+podman login
+podman build -t buckaroogeek/doh-client:2.2.2 -f Dockerfile.client
+podman tag 926230323771 latest
+podman push buckaroogeek/doh-client:latest
+podman push buckaroogeek/doh-client:2.2.2
+
