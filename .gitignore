@@ -3,6 +3,7 @@
 *.dll
 *.so
 *.dylib
+*.lock
 
 
 # vim users
