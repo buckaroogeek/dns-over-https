@@ -1,0 +1,22 @@
+#! /bin/bash
+
+DTAG="2.2.8"
+
+declare -A image
+for arch in amd64 arm64 ; do
+    buildah bud --override-arch $arch --iidfile iid Dockerfile.client
+    image[$arch]=$(cat iid)
+done
+
+buildah manifest create doh-client:$DTAG
+
+for arch in ${!image[@]} ; do
+     flags=
+     case $arch in
+     arm64|aarch64)
+          flags="--arch arm64 --variant v8"
+     esac
+     buildah manifest add doh-client:$DTAG $flags ${image[$arch]}
+done
+
+buildah manifest push --all doh-client:$DTAG docker://buckaroogeek/doh-client:$DTAG
