@@ -26,3 +26,4 @@ doh-server/doh-server
 
 # tmp folder
 tmp/*
+vendor/
