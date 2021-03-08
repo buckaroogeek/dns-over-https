@@ -59,10 +59,10 @@ sudo make uninstall
 docker run -itd --name doh-server \
   -p 8053:8053 \
   -e UPSTREAM_DNS_SERVER="udp:8.8.8.8:53" \
-  -e DOH_HTTP_PREFIX="/dns-query"
-  -e DOH_SERVER_LISTEN=":8053"
-  -e DOH_SERVER_TIMEOUT="10"
-  -e DOH_SERVER_TRIES="3"
+  -e DOH_HTTP_PREFIX="/dns-query" \
+  -e DOH_SERVER_LISTEN=":8053" \
+  -e DOH_SERVER_TIMEOUT="10" \
+  -e DOH_SERVER_TRIES="3" \
   -e DOH_SERVER_VERBOSE="false"
 satishweb/doh-server
 ```
@@ -170,10 +170,11 @@ my.server.name {
 version: '2.2'
 networks:
   default:
+
 services:
   proxy:
     # The official v2 Traefik docker image
-    image: traefik:v2.2
+    image: traefik:v2.3
     hostname: proxy
     networks:
       - default
@@ -265,8 +266,6 @@ services:
 ````
 
 > Complete Guide available at: https://github.com/satishweb/docker-doh
-
-> No IPV6 Support: Docker Swarm does not support IPV6 as of yet. Issue is logged [here](https://github.com/moby/moby/issues/24379)
 
 > IPV6 Support for Docker Compose based configuration TBA
 
