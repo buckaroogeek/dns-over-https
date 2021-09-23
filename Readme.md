@@ -11,7 +11,7 @@ and [IETF DNS-over-HTTPS (RFC 8484)](https://www.rfc-editor.org/rfc/rfc8484.txt)
 
 ## Installing
 ### From Source
-- Install [Go](https://golang.org), at least version 1.10.
+- Install [Go](https://golang.org), at least version 1.13. The newer the better.
 > Note for Debian/Ubuntu users: You need to set `$GOROOT` if you could not get your new version of Go selected by the Makefile.)
 
 - First create an empty directory, used for `$GOPATH`:
@@ -56,15 +56,15 @@ sudo make uninstall
 
 ### Using docker image
 ```bash
-docker run -itd --name doh-server \
+docker run -d --name doh-server \
   -p 8053:8053 \
   -e UPSTREAM_DNS_SERVER="udp:8.8.8.8:53" \
   -e DOH_HTTP_PREFIX="/dns-query" \
   -e DOH_SERVER_LISTEN=":8053" \
   -e DOH_SERVER_TIMEOUT="10" \
   -e DOH_SERVER_TRIES="3" \
-  -e DOH_SERVER_VERBOSE="false"
-satishweb/doh-server
+  -e DOH_SERVER_VERBOSE="false" \
+  satishweb/doh-server
 ```
 
 ## Server Configuration
