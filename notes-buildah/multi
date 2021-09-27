@@ -6,6 +6,6 @@
 
 DTAG="2.2.12"
 
-buildah bud --platform linux/amd64,linux/arm64 --manifest doh-client:$TAG ./Dockerfile.client
+buildah bud --platform linux/amd64,linux/arm64 --manifest doh-client:$DTAG ./Dockerfile.client
 
 buildah manifest push --all doh-client:$DTAG docker://buckaroogeek/doh-client:$DTAG
