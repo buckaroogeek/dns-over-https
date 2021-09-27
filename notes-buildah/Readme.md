@@ -6,3 +6,6 @@ The notes-buildah directory contains a shell script with the 'multi' filename. T
 ## Usage
 1. Authenticate with the repository (e.g. 'buildah login docker.io'.
 2. Run script from reposity root (for correct path resolution).
+
+
+buildah manifest create and buildah manifest push

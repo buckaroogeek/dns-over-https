@@ -1,6 +1,0 @@
-podman login
-podman build -t buckaroogeek/doh-client:2.2.2 -f Dockerfile.client
-podman tag 926230323771 bucharoogeek/doh-client:latest
-podman push buckaroogeek/doh-client:latest
-podman push buckaroogeek/doh-client:2.2.2
-

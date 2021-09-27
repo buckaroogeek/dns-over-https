@@ -23,6 +23,7 @@ doh-server/doh-server
 .glide/
 
 .idea/
+notes-podman
 
 # tmp folder
 tmp/*
