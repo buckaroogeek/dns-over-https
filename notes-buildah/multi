@@ -4,7 +4,7 @@
 # to docker hub
 # need to buildah login first
 
-DTAG="2.2.12"
+DTAG="2.2.13"
 
 buildah bud --platform linux/amd64,linux/arm64 --manifest doh-client:$DTAG ./Dockerfile.client
 
