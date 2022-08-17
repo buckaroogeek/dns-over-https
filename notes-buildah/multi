@@ -5,7 +5,7 @@
 # need to buildah login first
 
 # REMINDER! - Update DTAG before running script!
-DTAG="2.2.13"
+DTAG="2.2.14"
 
 buildah bud --platform linux/amd64,linux/arm64 --manifest doh-client:$DTAG ./Dockerfile.client
 
