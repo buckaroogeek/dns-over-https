@@ -28,7 +28,7 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net"
 	"net/http"
@@ -178,7 +178,7 @@ func (c *Client) parseResponseIETF(ctx context.Context, w dns.ResponseWriter, r 
 		}
 	}
 
-	body, err := ioutil.ReadAll(req.response.Body)
+	body, err := io.ReadAll(req.response.Body)
 	if err != nil {
 		log.Printf("read error from upstream %s: %v\n", req.currentUpstream, err)
 		req.reply.Rcode = dns.RcodeServerFailure
@@ -231,21 +231,17 @@ func (c *Client) parseResponseIETF(ctx context.Context, w dns.ResponseWriter, r 
 		_ = fixRecordTTL(rr, timeDelta)
 	}
 
+	if isTCP {
+		fullReply.Truncate(dns.MaxMsgSize)
+	} else {
+		fullReply.Truncate(int(req.udpSize))
+	}
 	buf, err := fullReply.Pack()
 	if err != nil {
 		log.Printf("packing error with upstream %s: %v\n", req.currentUpstream, err)
 		req.reply.Rcode = dns.RcodeServerFailure
 		w.WriteMsg(req.reply)
 		return
-	}
-	if !isTCP && len(buf) > int(req.udpSize) {
-		fullReply.Truncated = true
-		buf, err = fullReply.Pack()
-		if err != nil {
-			log.Printf("re-packing error with upstream %s: %v\n", req.currentUpstream, err)
-			return
-		}
-		buf = buf[:req.udpSize]
 	}
 	_, err = w.Write(buf)
 	if err != nil {
