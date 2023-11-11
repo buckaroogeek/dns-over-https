@@ -37,8 +37,9 @@ import (
 	"time"
 
 	"github.com/gorilla/handlers"
-	jsondns "github.com/m13253/dns-over-https/v2/json-dns"
 	"github.com/miekg/dns"
+
+	jsondns "github.com/m13253/dns-over-https/v2/json-dns"
 )
 
 type Server struct {
@@ -52,11 +53,11 @@ type Server struct {
 type DNSRequest struct {
 	request         *dns.Msg
 	response        *dns.Msg
-	transactionID   uint16
 	currentUpstream string
-	isTailored      bool
-	errcode         int
 	errtext         string
+	errcode         int
+	transactionID   uint16
+	isTailored      bool
 }
 
 func NewServer(conf *config) (*Server, error) {
@@ -284,7 +285,7 @@ func (s *Server) handlerFunc(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) findClientIP(r *http.Request) net.IP {
 	noEcs := r.URL.Query().Get("no_ecs")
-	if strings.ToLower(noEcs) == "true" {
+	if strings.EqualFold(noEcs, "true") {
 		return nil
 	}
 
@@ -318,7 +319,7 @@ func (s *Server) findClientIP(r *http.Request) net.IP {
 	return nil
 }
 
-// Workaround a bug causing Unbound to refuse returning anything about the root
+// Workaround a bug causing Unbound to refuse returning anything about the root.
 func (s *Server) patchRootRD(req *DNSRequest) *DNSRequest {
 	for _, question := range req.request.Question {
 		if question.Name == "." {
@@ -328,7 +329,7 @@ func (s *Server) patchRootRD(req *DNSRequest) *DNSRequest {
 	return req
 }
 
-// Return the position index for the question of qtype from a DNS msg, otherwise return -1
+// Return the position index for the question of qtype from a DNS msg, otherwise return -1.
 func (s *Server) indexQuestionType(msg *dns.Msg, qtype uint16) int {
 	for i, question := range msg.Question {
 		if question.Qtype == qtype {
@@ -363,7 +364,7 @@ func (s *Server) doDNSQuery(ctx context.Context, req *DNSRequest) (err error) {
 					req.response, _, err = s.tcpClient.ExchangeContext(ctx, req.request, upstream)
 				}
 
-				// Retry with TCP if this was an IXFR request and we only received an SOA
+				// Retry with TCP if this was an IXFR request, and we only received an SOA
 				if (s.indexQuestionType(req.request, dns.TypeIXFR) > -1) &&
 					(len(req.response.Answer) == 1) &&
 					(req.response.Answer[0].Header().Rrtype == dns.TypeSOA) {
